@@ -9,7 +9,7 @@ BOLD = \033[1m
 
 RM = rm -rf
 
-SRC =	$(wildcard *.c)
+SRC =	handle_error.c	main.c	my_time.c	philo.c	print_func.c	set_func.c
 
 OBJ = $(SRC:.c=.o)
 
