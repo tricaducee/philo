@@ -1,38 +1,67 @@
-# COLORS
-BLUE	= \033[1;36m
-RED 	= \033[1;31m
-ORANGE	= \033[1;33m
-RESET	= \033[0m
+ECHO = @echo
+PRINT = @printf
+RED = \033[31m
+GREEN = \033[32m
+YELLOW = \033[33m
+INVERT = \033[7m
+RESETTXT = \033[0m
+BOLD = \033[1m
 
-CC		=	cc
+RM = rm -rf
 
-FLAGS	=	-Wall -Wextra -Werror #-fsanitize=address -g3
+SRC =	$(wildcard *.c)
 
-RM		=	rm -rf
+OBJ = $(SRC:.c=.o)
 
-FILES	=	$(wildcard *.c)
+NAME = philosophers
 
-INCLUDE	=	philosophers.h
+CC = gcc
 
-INCLUDE	=	-lpthread
+CFLAGS = -Wall -Werror -Wextra
 
-NAME	=	philosophers
+ifeq ($(DEBUG), debug)
+	CFLAGS += -fsanitize=address -g3
+endif
 
-SRC 	=	$(FILES)
-OBJ 	=	$(SRC:.c=.o)
+$(NAME) : $(OBJ)
+	$(ECHO) "$(YELLOW)Compilation de $(NAME)...$(RESETTXT)"
+	@$(CC) $(CFLAGS) -o $@ $^
+	$(ECHO) "$(GREEN)$(BOLD)Compilation Terminée !!!$(RESETTXT)"
 
-all: $(OBJ)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJ)
-	@echo "[$(BLUE) CREATED$(RESET) ] : *.o & executable : philosophers"
+%.o : %.c
+	$(PRINT) "$(YELLOW)Generation des objets...$(RESETTXT)\r"
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
-clean:
+#bonus :
+#	@make -C Checker
+
+all : $(NAME)# bonus
+
+clean :
+	$(ECHO) "$(RED)Suppression des objets...$(RESETTXT)"
 	@$(RM) $(OBJ)
-	@echo "[$(RED) DELETED$(RESET) ] : all *.o files"
+	$(ECHO) "$(GREEN)$(BOLD)Terminé !$(RESETTXT)"
 
-fclean: clean
+#b_clean :
+#	@make clean -C Checker
+
+#all_clean : clean b_clean
+
+fclean : clean
+	$(ECHO) "$(RED)Suppression de $(NAME)...$(RESETTXT)"
 	@$(RM) $(NAME)
-	@echo "[$(RED) DELETED $(RESET)] : executable : $(NAME)"
+	$(ECHO) "$(GREEN)$(BOLD)Terminé !$(RESETTXT)"
 
-re: fclean all
+#b_fclean :
+#	@make fclean -C Checker
 
-.PHONY: all clean fclean re%
+#all_fclean : fclean b_fclean
+
+re : fclean $(NAME)
+
+#b_re :
+#	@make re -C Checker
+
+#all_re : re b_re
+
+.PHONY: all re clean fclean #bonus

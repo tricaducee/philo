@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_error.c                                     :+:      :+:    :+:   */
+/*   my_time.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrolle <marvin@42lausanne.ch>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 22:32:04 by hrolle            #+#    #+#             */
-/*   Updated: 2022/10/08 22:32:06 by hrolle           ###   ########.fr       */
+/*   Created: 2022/10/08 22:32:28 by hrolle            #+#    #+#             */
+/*   Updated: 2022/10/08 22:32:30 by hrolle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	destroy_mufork(t_all *all)
+unsigned long	my_time(void)
 {
-	unsigned int	i;
+	struct timeval	tv;
 
-	i = 0;
-	while (i < all->philos)
-		pthread_mutex_destroy(&all->mufork[i++]);
-	pthread_mutex_destroy(&all->pencil);
-}
-
-int	handle_error(char *str, t_all *all, t_philo *philos)
-{
-	if (all && all->mufork)
-	{
-		destroy_mufork(all);
-		free(all->mufork);
-	}
-	if (philos)
-		free(philos);
-	printf("Error: %s\n", str);
-	return (1);
+	gettimeofday(&tv, NULL);
+	return ((unsigned long)((tv.tv_sec * 1000) + (tv.tv_usec / 1000)));
 }
