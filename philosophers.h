@@ -10,6 +10,7 @@
 typedef struct S_all
 {
 	pthread_mutex_t		*mufork;
+	pthread_mutex_t		pencil;
 	unsigned int		philos;
 	unsigned long		start_time;	
 	unsigned int		death;
@@ -26,6 +27,7 @@ typedef	struct	S_philo
 	pthread_t		philo_id;
 	unsigned int	each_eat_time;
 	unsigned int	n_philo;
+	unsigned long	is_dead;
 }					t_philo;
 
 void				handle_error(char *str);
@@ -34,6 +36,5 @@ void				set_all(t_all *all, int ac, char **av);
 unsigned			ft_atoui(char *s);
 void				*philo_func(void *philo);
 unsigned long		my_time(void);
-//void	philo(t_all *all, unsigned i);
 
 #endif

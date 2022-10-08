@@ -53,6 +53,7 @@ t_philo	*set_philo(t_all *all)
 		ret[i].each_eat_time = 0;
 		ret[i].all = all;
 		ret[i].n_philo = i + 1;
+		ret[i].is_dead = my_time();
 		i++;
 	}
 	return (ret);
@@ -69,6 +70,33 @@ void	set_mutex(t_all *all)
 		handle_error("malloc foireux du mutexage");
 	while (i < all->philos)
 		pthread_mutex_init(&all->mufork[i++], NULL);
+	pthread_mutex_init(&all->pencil, NULL);
+}
+
+void	pair(t_all *all, t_philo *philos)
+{
+	unsigned	i;
+
+	i = 0;
+	while (i < all->philos)
+	{
+		if (!(i % 2))
+			pthread_create(&philos[i].philo_id, NULL, philo_func, &philos[i]);
+		i++;
+	}
+}
+
+void	odd(t_all *all, t_philo *philos)
+{
+	unsigned	i;
+
+	i = 0;
+	while (i < all->philos)
+	{
+		if (i % 2)
+			pthread_create(&philos[i].philo_id, NULL, philo_func, &philos[i]);
+		i++;
+	}
 }
 
 int main(int ac, char **av)
@@ -77,7 +105,6 @@ int main(int ac, char **av)
 	t_philo			*philos;
 	unsigned int	i;
 
-	i = 0;
 	if (ac < 5)
 		handle_error("+ d'args");
 	set_all(&all, ac, av);
@@ -85,24 +112,14 @@ int main(int ac, char **av)
 	set_mutex(&all);
 	print_struct(&all);
 	all.start_time = my_time();
-	while (i < all.philos)
-	{
-		if (!(i % 2))
-			pthread_create(&philos[i].philo_id, NULL, philo_func, &philos[i]);
-		i++;
-	}
-	i = 0;
-	usleep(all.eat_time * 1000);
-	while (i < all.philos)
-	{
-		if (i % 2)
-			pthread_create(&philos[i].philo_id, NULL, philo_func, &philos[i]);
-		i++;
-	}
+	odd(&all, philos);
+	usleep(5000);
+	pair(&all, philos);
 	i = 0;
 	while (i < all.philos)
 		pthread_join(philos[i++].philo_id, NULL);
 	free(philos);
+	free(all.mufork);
 	print_struct(&all);
 	return (0);
 	// printf();
