@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrolle <marvin@42lausanne.ch>              +#+  +:+       +#+        */
+/*   By: hrolle <hrolle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 22:32:17 by hrolle            #+#    #+#             */
-/*   Updated: 2022/10/08 22:32:19 by hrolle           ###   ########.fr       */
+/*   Updated: 2022/10/09 17:53:02 by hrolle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //		all->death_time, all->eat_time, all->sleep_time);
 // }
 
-void clean(t_all *all, t_philo *philos)
+void	clean(t_all *all, t_philo *philos)
 {
 	destroy_mufork(all);
 	free(philos);
