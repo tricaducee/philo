@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_func.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrolle <marvin@42lausanne.ch>              +#+  +:+       +#+        */
+/*   By: hrolle <hrolle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 22:33:08 by hrolle            #+#    #+#             */
-/*   Updated: 2022/10/08 22:33:09 by hrolle           ###   ########.fr       */
+/*   Updated: 2022/10/09 14:45:37 by hrolle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	check_arg(int ac, char **av)
 				return (handle_error("argment(s) invalide", NULL, NULL));
 			j++;
 		}
+		if (ft_atoui(av[i]) >= 2147483647)
+			return (handle_error("max int", NULL, NULL));
 		i++;
 	}
 	return (0);
